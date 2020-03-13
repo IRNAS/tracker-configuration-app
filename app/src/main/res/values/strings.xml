@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BLEtestApp</string>
+    <string name="start_scan">Start</string>
+    <string name="stop_scan">Stop</string>
+</resources>
