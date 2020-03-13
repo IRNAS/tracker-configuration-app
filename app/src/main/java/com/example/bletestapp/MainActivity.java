@@ -199,16 +199,14 @@ public class MainActivity extends AppCompatActivity {   // TODO rename to ScanAc
     };
 
     private void updateDiscoveredDevsList(List<ScanResult> scanResults) {
-        // add discovered devices to list of bluetooth devices
         for (ScanResult result : scanResults) {
+            // add discovered devices to list of bluetooth devices
             BluetoothDevice device = result.getDevice();
             //result.toString();
             if (!discoveredDevices.contains(device)) {
                 discoveredDevices.add(device);
             }
-        }
-        // add new devices to adapter for list view
-        for (BluetoothDevice device : discoveredDevices) {
+            // add new devices to adapter for list view
             if (discoveredDevsAdapter.getPosition(device) < 0) {
                 discoveredDevsAdapter.add(device);
             }
