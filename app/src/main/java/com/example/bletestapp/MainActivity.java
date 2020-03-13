@@ -206,10 +206,6 @@ public class MainActivity extends AppCompatActivity {   // TODO rename to ScanAc
             if (!discoveredDevices.contains(device)) {
                 discoveredDevices.add(device);
             }
-            // add new devices to adapter for list view
-            if (discoveredDevsAdapter.getPosition(device) < 0) {
-                discoveredDevsAdapter.add(device);
-            }
         }
         // update list view adapter
         discoveredDevsAdapter.notifyDataSetChanged();
