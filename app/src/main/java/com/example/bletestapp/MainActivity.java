@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {   // TODO rename to ScanAc
     private ListView discoveredDevsListView;
     private Handler scanHandler;
 
+    // TODO How to detect adapter state change inside scanner BroadcastReceiver?
+    // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
