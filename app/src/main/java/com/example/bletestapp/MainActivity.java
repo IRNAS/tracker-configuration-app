@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {   // TODO rename to ScanAc
         // discovered devices holder list, list view and widget init
         discoveredDevices = new ArrayList<>();
         discoveredDevsAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, discoveredDevices);
+        // TODO make custom adapter to show more data (RSSI, device name, advertisement period) besides MAC
         discoveredDevsListView = findViewById(R.id.discoveredDevsListView);
         discoveredDevsListView.setAdapter(discoveredDevsAdapter);
         discoveredDevsListView.setOnItemClickListener(new OnItemClickListener() {
