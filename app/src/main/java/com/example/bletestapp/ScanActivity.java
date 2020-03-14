@@ -30,7 +30,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {   // TODO rename to ScanActivity
+public class ScanActivity extends AppCompatActivity {
 
     private final static int REQUEST_ENABLE_BT = 1;
     private final static int REQUEST_ENABLE_LOCATION = 2;
@@ -80,7 +80,11 @@ public class MainActivity extends AppCompatActivity {   // TODO rename to ScanAc
                 if (scanActive) {
                     scanBLE(true);
                 }
-                // TODO connect with device, use int position
+                // start activity to connect with device - send object with intent
+                BluetoothDevice selectedDevice = discoveredDevices.get(position);
+                Intent connectIntent = new Intent(ScanActivity.this, ConnectActivity.class);
+                connectIntent.putExtra("device", selectedDevice);
+                startActivity(connectIntent);
             }
         });
 
