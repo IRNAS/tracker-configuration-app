@@ -1,5 +1,7 @@
 package com.example.bletestapp;
 
+import static com.example.bletestapp.Helper.LOG_TAG_TEST;
+
 import android.os.Handler;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -31,11 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScanActivity extends AppCompatActivity {
-
     private final static int REQUEST_ENABLE_BT = 1;
     private final static int REQUEST_ENABLE_LOCATION = 2;
-
-    private final static String LOG_TAG_TEST = "TEST";
 
     // stop scanning after 10 seconds
     private final static long SCAN_PERIOD = 10000;
