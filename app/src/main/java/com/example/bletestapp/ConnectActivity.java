@@ -29,19 +29,19 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         deviceToConnect = intent.getParcelableExtra("device");
 
         // init custom ble manager
-        manager = new HtManager(this);
+        manager = new HtManager(getApplication());
 
         // init variables
         deviceConnected = false;
-        deviceName = "";    // TODO read device name
+        deviceName = deviceToConnect.getName();
 
         // connect to it
-        manager.setGattCallbacks(this); // TODO popravi to
+        manager.setGattCallbacks(this);
         manager.connect(deviceToConnect)
                 .timeout(CONNECT_TIMEOUT)
                 .useAutoConnect(false)  // TODO additional option to use
                 .retry(3, 100)
-                .enqueue(); // tu fajla
+                .enqueue();     // tu fajla
     }
 
     @Override
