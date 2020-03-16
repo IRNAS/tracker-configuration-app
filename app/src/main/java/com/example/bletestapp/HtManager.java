@@ -15,9 +15,9 @@ import no.nordicsemi.android.ble.BleManager;
 import no.nordicsemi.android.ble.data.Data;
 
 public class HtManager extends BleManager<HtManagerCallbacks> {
-    final static UUID SERVICE_UUID = UUID.randomUUID();
+    final static UUID SERVICE_UUID = UUID.fromString("0000aaa0-0000-1000-8000-aabbccddeeff");
     final static UUID FIRST_CHAR = UUID.randomUUID();
-    final static UUID SECOND_CHAR = UUID.randomUUID();
+    final static UUID SECOND_CHAR = UUID.fromString("0000aaa1-0000-1000-8000-aabbccddeeff");
 
     // client characteristics
     private BluetoothGattCharacteristic firstCharacteristic, secondCharacteristic, thirdCharacteristic;

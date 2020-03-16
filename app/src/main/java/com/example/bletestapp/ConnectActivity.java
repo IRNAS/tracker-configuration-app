@@ -19,6 +19,11 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private boolean deviceConnected;
     private String deviceName;
 
+    // TODO display read characteristics
+    // TODO implement notify characteristics
+    // TODO implement write characteristics
+    // TODO implement onTest1StateChanged
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +46,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
                 .timeout(CONNECT_TIMEOUT)
                 .useAutoConnect(false)  // TODO additional option to use
                 .retry(3, 100)
-                .enqueue();     // tu fajla
+                .enqueue();
     }
 
     @Override
