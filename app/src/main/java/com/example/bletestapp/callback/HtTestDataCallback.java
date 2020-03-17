@@ -1,13 +1,15 @@
 package com.example.bletestapp.callback;
 
+import static com.example.bletestapp.Helper.LOG_TAG_TEST;
+
 import android.bluetooth.BluetoothDevice;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import no.nordicsemi.android.ble.callback.profile.ProfileDataCallback;
 import no.nordicsemi.android.ble.data.Data;
 
 public abstract class HtTestDataCallback implements ProfileDataCallback, HtTestCallback {
-    private static final int STATE_YES = 0x00;
-    private static final int STATE_NO = 0x01;
+    // body sensor location callback
 
     @Override
     public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
@@ -15,7 +17,14 @@ public abstract class HtTestDataCallback implements ProfileDataCallback, HtTestC
             onInvalidDataReceived(device, data);
             return;
         }
-
+        final int key = data.getIntValue(Data.FORMAT_UINT8, 0);
+        if (key < 7) {
+            bodySensorLocationCharRead(device, key);
+        }
+        else {
+            onInvalidDataReceived(device, data);
+        }
+        /*
         final int state = data.getIntValue(Data.FORMAT_UINT8, 0);
         if (state == STATE_YES) {
             onTest1StateChanged(device, true);
@@ -26,5 +35,6 @@ public abstract class HtTestDataCallback implements ProfileDataCallback, HtTestC
         else {
             onInvalidDataReceived(device, data);
         }
+         */
     }
 }

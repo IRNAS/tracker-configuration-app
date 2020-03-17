@@ -9,7 +9,9 @@ public interface HtTestCallback {
      * Called when Test characteristic changes
      *
      * @param device the target device.
-     * @param test1 true if yes, false if no
+     * @param key int, values between 0 and 6
      */
-    void onTest1StateChanged(@NonNull final BluetoothDevice device, final boolean test1);
+    //void onTest1StateChanged(@NonNull final BluetoothDevice device, final boolean test1);
+    //void onLocalTimeInfo(@NonNull final BluetoothDevice device, final String time);
+    void bodySensorLocationCharRead(@NonNull final BluetoothDevice device, final int key);
 }

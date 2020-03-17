@@ -47,11 +47,24 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
                 .useAutoConnect(false)  // TODO additional option to use
                 .retry(3, 100)
                 .enqueue();
-    }
 
+    }
+    /*
     @Override
     public void onTest1StateChanged(@NonNull BluetoothDevice device, boolean test1) {
         Log.d(LOG_TAG_TEST, "Method called: onTest1StateChanged");
+    }
+    */
+    /*
+    @Override
+    public void onLocalTimeInfo(@NonNull final BluetoothDevice device, String time) {
+        Log.d(LOG_TAG_TEST, "Method called: onLocalTimeInfo");
+    }
+    */
+
+    @Override
+    public void bodySensorLocationCharRead(@NonNull final BluetoothDevice device, int key) {
+        Log.d(LOG_TAG_TEST, "Method called: bodySensorLocationCharRead");
     }
 
     @Override
