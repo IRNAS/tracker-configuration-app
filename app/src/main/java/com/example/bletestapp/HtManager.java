@@ -137,11 +137,11 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
             setNotificationCallback(bodySensorLocationCharR).with(bodySensorLocationCharRCallback);
             readCharacteristic(bodySensorLocationCharR).with(bodySensorLocationCharRCallback).enqueue();
 
-            //byte[] bytes = "test send".getBytes();
-            //writeCharacteristic(hrControlPointCharW, bytes).with(hrControlPointCharWCallback).enqueue();
+            writeCharacteristic(hrControlPointCharW, new byte[] {1})
+                    .done(device -> log(Log.INFO, "HR control point data send"))
+                    .enqueue();
 
             //enableNotifications(firstCharacteristic).enqueue();
-
         }
 
         @Override
