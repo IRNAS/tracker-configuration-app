@@ -10,28 +10,16 @@ public abstract class HtNotifyDataCallback implements ProfileDataCallback, HtNot
 
     @Override
     public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
-        if (data.size() != 1) {
+        if (data.size() != 2) {
             onInvalidDataReceived(device, data);
             return;
         }
-        final int value = data.getIntValue(Data.FORMAT_UINT8, 0);
+        final int value = data.getIntValue(Data.FORMAT_UINT8, 1);
         if (value > 0 && value < 200) {
             hrMeasurementNotification(device, value);
         }
         else {
             onInvalidDataReceived(device, data);
         }
-        /*
-        final int state = data.getIntValue(Data.FORMAT_UINT8, 0);
-        if (state == STATE_YES) {
-            onTest1StateChanged(device, true);
-        }
-        else if (state == STATE_NO) {
-            onTest1StateChanged(device, false);
-        }
-        else {
-            onInvalidDataReceived(device, data);
-        }
-         */
     }
 }

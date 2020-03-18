@@ -46,7 +46,7 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
     public void log(final int priority, @NonNull final String message) {
         Log.i(LOG_TAG_TEST,"LOG msg: " + message);
         // log only in debug build
-        if (BuildConfig.DEBUG || priority == Log.ERROR)
+        if (BuildConfig.DEBUG || priority == Log.ERROR)     // TODO fix this
             Log.println(priority, "HtBleManager", message);
     }
 
@@ -155,8 +155,8 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
                     .with(bodySensorLocationCharRCallback)
                     .enqueue();
 
-            writeCharacteristic(hrControlPointCharW, new byte[] {1})
-                    .done(device -> log(Log.INFO, "HR control point data send"))
+            writeCharacteristic(hrControlPointCharW, new byte[] {1, 1})
+                    .done(device -> log(Log.INFO, "HR control point data send OK"))
                     .enqueue();
 
             setNotificationCallback(hrMeasurementCharN)

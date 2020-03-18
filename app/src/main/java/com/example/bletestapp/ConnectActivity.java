@@ -19,7 +19,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private boolean deviceConnected;
     private String deviceName;
 
-    // TODO display read characteristics in GUI
+    // TODO display characteristics in GUI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
