@@ -19,10 +19,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private boolean deviceConnected;
     private String deviceName;
 
-    // TODO display read characteristics
-    // TODO implement notify characteristics
-    // TODO implement write characteristics
-    // TODO implement onTest1StateChanged
+    // TODO display read characteristics in GUI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +62,11 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     @Override
     public void bodySensorLocationCharRead(@NonNull final BluetoothDevice device, int key) {
         Log.d(LOG_TAG_TEST, "Method called: bodySensorLocationCharRead");
+    }
+
+    @Override
+    public void hrMeasurementNotification(@NonNull BluetoothDevice device, int measurement) {
+        Log.d(LOG_TAG_TEST, "Method called: hrMeasurementNotification");
     }
 
     @Override

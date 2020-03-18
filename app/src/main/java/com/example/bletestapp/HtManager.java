@@ -10,6 +10,8 @@ import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import com.example.bletestapp.callback.HtNotifyCallback;
+import com.example.bletestapp.callback.HtNotifyDataCallback;
 import com.example.bletestapp.callback.HtTestDataCallback;
 import java.util.UUID;
 import no.nordicsemi.android.ble.BleManager;
@@ -90,6 +92,19 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
         }
     };
 
+    private final HtNotifyDataCallback hrMeasurementCharNCallback = new HtNotifyDataCallback() {
+        @Override
+        public void hrMeasurementNotification(@NonNull BluetoothDevice device, int measurement) {
+            Log.i(LOG_TAG_TEST,"Current HR: " + measurement);
+            mCallbacks.hrMeasurementNotification(device, measurement);
+        }
+
+        @Override
+        public void onInvalidDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
+            Log.i(LOG_TAG_TEST,"Invalid data received: " + data.toString());
+        }
+    };
+
     // BluetoothGatt callbacks object
     private final BleManagerGattCallback htGattCallback = new BleManagerGattCallback() {
         // This method will be called when the device is connected and services are discovered.
@@ -134,14 +149,20 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
         // MTU or write some initial data. Do it here.
         @Override
         protected void initialize() {
-            setNotificationCallback(bodySensorLocationCharR).with(bodySensorLocationCharRCallback);
-            readCharacteristic(bodySensorLocationCharR).with(bodySensorLocationCharRCallback).enqueue();
+            setNotificationCallback(bodySensorLocationCharR)
+                    .with(bodySensorLocationCharRCallback);
+            readCharacteristic(bodySensorLocationCharR)
+                    .with(bodySensorLocationCharRCallback)
+                    .enqueue();
 
             writeCharacteristic(hrControlPointCharW, new byte[] {1})
                     .done(device -> log(Log.INFO, "HR control point data send"))
                     .enqueue();
 
-            //enableNotifications(firstCharacteristic).enqueue();
+            setNotificationCallback(hrMeasurementCharN)
+                    .with(hrMeasurementCharNCallback);
+            enableNotifications(hrMeasurementCharN)
+                    .enqueue();
         }
 
         @Override
