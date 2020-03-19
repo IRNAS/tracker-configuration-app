@@ -48,15 +48,11 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     }
     /*
     @Override
-    public void onTest1StateChanged(@NonNull BluetoothDevice device, boolean test1) {
-        Log.d(LOG_TAG_TEST, "Method called: onTest1StateChanged");
-    }
+    public void onTest1StateChanged(@NonNull BluetoothDevice device, boolean test1) {}
     */
     /*
     @Override
-    public void onLocalTimeInfo(@NonNull final BluetoothDevice device, String time) {
-        Log.d(LOG_TAG_TEST, "Method called: onLocalTimeInfo");
-    }
+    public void onLocalTimeInfo(@NonNull final BluetoothDevice device, String time) {}
     */
 
     @Override
