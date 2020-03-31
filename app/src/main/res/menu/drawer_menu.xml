@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:showIn="navigation_view">
+  <group android:checkableBehavior="single">
+    <item android:id="@+id/devices_list"
+      android:title="Devices list"
+      android:icon="@drawable/ic_bluetooth_searching"/>
+    <item android:id="@+id/option_2"
+      android:title="Option 2"
+      android:icon="@drawable/ic_star"/>
+    <item android:id="@+id/option_3"
+      android:title="Option 3"
+      android:icon="@drawable/ic_star"/>
+  </group>
+
+  <item android:title="Horizon App">
+    <menu>
+      <item android:id="@+id/settings"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"/>
+      <item android:id="@+id/help"
+        android:title="Help"
+        android:icon="@drawable/ic_help"/>
+    </menu>
+  </item>
+</menu>

@@ -32,7 +32,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScanActivity extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity {   // TODO mogoče treba odstranit AppCompatActivity
     private final static int REQUEST_ENABLE_BT = 1;
     private final static int REQUEST_ENABLE_LOCATION = 2;
 
@@ -53,7 +53,7 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_scan);
 
         // scan button init
         scanActive = false;
