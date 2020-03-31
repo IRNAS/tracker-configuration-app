@@ -5,6 +5,7 @@ import static com.example.bletestapp.Helper.LOG_TAG_TEST;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -85,6 +86,8 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     public void onDeviceDisconnected(@NonNull BluetoothDevice device) {
         deviceConnected = false;
         manager.close();
+        Toast.makeText(this, "Device error, disconnected!", Toast.LENGTH_SHORT).show();
+        finish();
         Log.d(LOG_TAG_TEST, "Method called: onDeviceDisconnected");
     }
 

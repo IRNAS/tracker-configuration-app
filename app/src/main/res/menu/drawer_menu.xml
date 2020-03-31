@@ -3,25 +3,30 @@
   xmlns:tools="http://schemas.android.com/tools"
   tools:showIn="navigation_view">
   <group android:checkableBehavior="single">
-    <item android:id="@+id/devices_list"
-      android:title="Devices list"
-      android:icon="@drawable/ic_bluetooth_searching"/>
-    <item android:id="@+id/option_2"
-      android:title="Option 2"
-      android:icon="@drawable/ic_star"/>
-    <item android:id="@+id/option_3"
-      android:title="Option 3"
-      android:icon="@drawable/ic_star"/>
+    <item
+      android:id="@+id/devices_list"
+      android:icon="@drawable/ic_bluetooth_searching"
+      android:title="Devices list" />
+    <item
+      android:id="@+id/option_2"
+      android:icon="@drawable/ic_star"
+      android:title="Option 2" />
+    <item
+      android:id="@+id/option_3"
+      android:icon="@drawable/ic_star"
+      android:title="Option 3" />
   </group>
 
   <item android:title="Horizon App">
     <menu>
-      <item android:id="@+id/settings"
-        android:title="Settings"
-        android:icon="@drawable/ic_settings"/>
-      <item android:id="@+id/help"
-        android:title="Help"
-        android:icon="@drawable/ic_help"/>
+      <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings" />
+      <item
+        android:id="@+id/help"
+        android:icon="@drawable/ic_help"
+        android:title="Help" />
     </menu>
   </item>
 </menu>

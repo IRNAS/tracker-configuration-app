@@ -3,13 +3,16 @@ package com.example.bletestapp;
 import static com.example.bletestapp.Helper.LOG_TAG_TEST;
 
 import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat;
 import no.nordicsemi.android.support.v18.scanner.ScanResult;
 import no.nordicsemi.android.support.v18.scanner.ScanSettings;
@@ -32,16 +35,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScanActivity extends AppCompatActivity {   // TODO mogoče treba odstranit AppCompatActivity
-    private final static int REQUEST_ENABLE_BT = 1;
-    private final static int REQUEST_ENABLE_LOCATION = 2;
-
+public class ScanFragment extends Fragment {
     // stop scanning after 10 seconds
     private final static long SCAN_PERIOD = 10000;
 
-    private static boolean scanActive;
     private Button scanBtn;
-    private BluetoothAdapter bluetoothAdapter;
+    private boolean scanActive = false;
     private ArrayList<BluetoothDevice> discoveredDevices;
     private ArrayAdapter<BluetoothDevice> discoveredDevsAdapter;
     private ListView discoveredDevsListView;
@@ -50,14 +49,17 @@ public class ScanActivity extends AppCompatActivity {   // TODO mogoče treba od
     // TODO How to detect adapter state change inside scanner BroadcastReceiver?
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_scan, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // scan button init
-        scanActive = false;
-        scanBtn = findViewById(R.id.start_scan_btn);
+        scanBtn = view.findViewById(R.id.start_scan_btn);
         scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,9 +69,9 @@ public class ScanActivity extends AppCompatActivity {   // TODO mogoče treba od
 
         // discovered devices holder list, list view and widget init
         discoveredDevices = new ArrayList<>();
-        discoveredDevsAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, discoveredDevices);
+        discoveredDevsAdapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, discoveredDevices);
         // TODO make custom adapter to show more data (RSSI, device name, advertisement period) besides MAC
-        discoveredDevsListView = findViewById(R.id.discoveredDevsListView);
+        discoveredDevsListView = view.findViewById(R.id.discoveredDevsListView);
         discoveredDevsListView.setAdapter(discoveredDevsAdapter);
         discoveredDevsListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -81,74 +83,13 @@ public class ScanActivity extends AppCompatActivity {   // TODO mogoče treba od
                 }
                 // start activity to connect with device - send object with intent
                 BluetoothDevice selectedDevice = discoveredDevices.get(position);
-                Intent connectIntent = new Intent(ScanActivity.this, ConnectActivity.class);
+                Intent connectIntent = new Intent(getActivity(), ConnectActivity.class);
                 connectIntent.putExtra("device", selectedDevice);
                 startActivity(connectIntent);
             }
         });
 
         // TODO implement listener for pull down gesture to empty the list and start scanning again
-
-        // get the bluetooth adapter
-        final BluetoothManager bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
-        bluetoothAdapter = bluetoothManager.getAdapter();
-
-        // check if location is enabled and display popup if not
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
-                    REQUEST_ENABLE_LOCATION
-            );
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        checkBluetooth();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
-            Toast.makeText(this, "bluetooth needs to be turned on, app will now close", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        // other request codes to be added
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_ENABLE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You need to allow location services, app close", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-            // other permission cases to be added
-            default: {
-                // do nothing
-            }
-        }
-    }
-
-    private void checkBluetooth() {
-        // check if bluetooth is enabled and display popup if not
-        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }
     }
 
     private void scanBLE(final boolean isActive) {
