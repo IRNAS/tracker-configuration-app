@@ -94,13 +94,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             case R.id.devices_list:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScanFragment()).commit();
                 break;
-            case R.id.option_2:
+            case R.id.wizards:
                 Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.option_3:
-                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.settings:
+            case R.id.advanced:
                 Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.help:
