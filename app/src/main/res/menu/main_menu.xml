@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+    android:id="@+id/overflowMenu"
+    android:icon="@drawable/ic_more_vert"
+    android:title=""
+    app:showAsAction="always">
+
+    <menu>
+      <item
+        android:id="@+id/devices_list"
+        android:icon="@drawable/ic_bluetooth_searching"
+        android:title="Devices list"
+        app:showAsAction="never" />
+
+      <item
+        android:id="@+id/wizards"
+        android:icon="@drawable/ic_create"
+        android:title="Configuration wizards"
+        app:showAsAction="never" />
+
+      <item
+        android:id="@+id/help"
+        android:icon="@drawable/ic_help"
+        android:title="Help"
+        app:showAsAction="never" />
+
+      <item
+        android:id="@+id/advanced"
+        android:icon="@drawable/ic_advanced"
+        android:title="Advanced"
+        app:showAsAction="never" />
+    </menu>
+  </item>
+</menu>

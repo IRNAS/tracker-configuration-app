@@ -4,25 +4,25 @@
   tools:showIn="navigation_view">
   <group android:checkableBehavior="single">
     <item
-      android:id="@+id/devices_list"
-      android:icon="@drawable/ic_bluetooth_searching"
-      android:title="Devices list" />
-    <item
-      android:id="@+id/wizards"
+      android:id="@+id/device_status"
       android:icon="@drawable/ic_star"
-      android:title="Configuration wizards" />
-  </group>
+      android:title="Device status" />
+    <item
+      android:id="@+id/logs"
+      android:icon="@drawable/ic_star"
+      android:title="Logs" />
+    <item
+      android:id="@+id/live"
+      android:icon="@drawable/ic_star"
+      android:title="Live" />
+    <item
+      android:id="@+id/provisioning"
+      android:icon="@drawable/ic_star"
+      android:title="Provisioning" />
+    <item
+      android:id="@+id/settings"
+      android:icon="@drawable/ic_settings"
+      android:title="Settings" />
 
-  <item android:title="More">
-    <menu>
-      <item
-        android:id="@+id/advanced"
-        android:icon="@drawable/ic_settings"
-        android:title="Advanced" />
-      <item
-        android:id="@+id/help"
-        android:icon="@drawable/ic_help"
-        android:title="Help" />
-    </menu>
-  </item>
+  </group>
 </menu>

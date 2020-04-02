@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScanFragment()).commit();
-            navigationView.setCheckedItem(R.id.devices_list);
+            navigationView.setCheckedItem(R.id.device_status);
         }
 
         // get the bluetooth adapter
@@ -88,19 +91,50 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.devices_list:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.wizards:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.help:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.advanced:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override        // TODO if item is already selected, don't allow the action
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.devices_list:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScanFragment()).commit();
-                break;
-            case R.id.wizards:
+            case R.id.device_status:
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScanFragment()).commit();
                 Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.advanced:
+            case R.id.logs:
                 Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.help:
+            case R.id.live:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.provisioning:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.settings:
                 Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
                 break;
         }
