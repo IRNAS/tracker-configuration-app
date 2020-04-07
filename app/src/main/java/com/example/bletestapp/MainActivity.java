@@ -24,6 +24,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
+// TODO Delete this, not used anymore - only to show drawer if it is going to be needed
+
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
 
     private final static int REQUEST_ENABLE_BT = 1;
@@ -50,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         toggle.syncState();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScanFragment()).commit();
-            navigationView.setCheckedItem(R.id.device_status);
+            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScanFragment()).commit();
+            //navigationView.setCheckedItem(R.id.device_status);
         }
 
         // get the bluetooth adapter
@@ -105,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                 Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.wizards:
-                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                Intent wizardsIntent = new Intent(this, WizardsActivity.class);
+                startActivity(wizardsIntent);
                 return true;
             case R.id.help:
                 Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();

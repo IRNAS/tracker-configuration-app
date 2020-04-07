@@ -75,6 +75,8 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     public void onDeviceConnected(@NonNull BluetoothDevice device) {
         deviceConnected = true;
         Log.d(LOG_TAG_TEST, "Method called: onDeviceConnected");
+        // TODO read all available GATT services
+        // TODO read all available GATT chars and descriptors
     }
 
     @Override
