@@ -45,8 +45,8 @@ public class ScanActivity extends AppCompatActivity {
     private static boolean scanActive;
     private Button scanBtn;
     private BluetoothAdapter bluetoothAdapter;
-    private ArrayList<BluetoothDevice> discoveredDevices;
-    private ArrayAdapter<BluetoothDevice> discoveredDevsAdapter;
+    private ArrayList<ScanResult> discoveredDevices;
+    private BleScanResultAdapter discoveredDevsAdapter;
     private ListView discoveredDevsListView;
     private Handler scanHandler;
 
@@ -74,8 +74,8 @@ public class ScanActivity extends AppCompatActivity {
 
         // discovered devices holder list, list view and widget init
         discoveredDevices = new ArrayList<>();
-        discoveredDevsAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, discoveredDevices);
-        // TODO make custom adapter to show more data (RSSI, device name, advertisement period) besides MAC
+        // use custom adapter to show desired data (device name, MAC, RSSI, advertisement period)
+        discoveredDevsAdapter = new BleScanResultAdapter(this, discoveredDevices);
         discoveredDevsListView = findViewById(R.id.discoveredDevsListView);
         discoveredDevsListView.setAdapter(discoveredDevsAdapter);
         discoveredDevsListView.setOnItemClickListener(new OnItemClickListener() {
@@ -87,7 +87,7 @@ public class ScanActivity extends AppCompatActivity {
                     scanBLE(true);
                 }
                 // start activity to connect with device - send object with intent
-                BluetoothDevice selectedDevice = discoveredDevices.get(position);
+                BluetoothDevice selectedDevice = discoveredDevices.get(position).getDevice();
                 Intent connectIntent = new Intent(ScanActivity.this, ConnectActivity.class);
                 connectIntent.putExtra("device", selectedDevice);
                 startActivity(connectIntent);
@@ -246,11 +246,21 @@ public class ScanActivity extends AppCompatActivity {
 
     private void updateDiscoveredDevsList(List<ScanResult> scanResults) {
         for (ScanResult result : scanResults) {
-            // add discovered devices to list of bluetooth devices
-            BluetoothDevice device = result.getDevice();
-            //result.toString();
-            if (!discoveredDevices.contains(device)) {
-                discoveredDevices.add(device);
+            boolean found = false;
+            for (ScanResult old_result : discoveredDevices) {   // check if new or old device
+                if (result.getDevice().equals(old_result.getDevice())) {
+                    found = true;   // device was already found in previous scans
+                    if (result.getRssi() != old_result.getRssi()) {
+                        // old device, but new scan values: replace it
+                        int position = discoveredDevices.indexOf(old_result);
+                        discoveredDevices.remove(old_result);
+                        discoveredDevices.add(position, result);
+                    }
+                    break;
+                }
+            }
+            if (!found) {   // new device, add to list
+                discoveredDevices.add(result);
             }
         }
         // update list view adapter
