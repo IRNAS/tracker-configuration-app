@@ -8,13 +8,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat;
 import no.nordicsemi.android.support.v18.scanner.ScanResult;
 import no.nordicsemi.android.support.v18.scanner.ScanSettings;
@@ -31,8 +29,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +55,6 @@ public class ScanActivity extends AppCompatActivity {
     // TODO How to detect adapter state change inside scanner BroadcastReceiver?
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
 
-    // TODO move all toasts to a single function
     // TODO back button from other activities always brings you here
 
     @Override
@@ -130,9 +125,6 @@ public class ScanActivity extends AppCompatActivity {
         super.onResume();
 
         checkBluetooth();
-        if (!scanActive) {      // start new scan if not already running
-            scanBLE(false);
-        }
     }
 
     @Override
@@ -148,9 +140,16 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
-            Toast.makeText(this, "bluetooth needs to be turned on, app will now close", Toast.LENGTH_SHORT).show();
-            finish();
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Helper.displayToast(this, "Bluetooth needs to be turned on, the app has been closed.");
+                finish();
+            }
+            else if (resultCode == Activity.RESULT_OK) {
+                if (!scanActive) {      // start new scan if not already running
+                    scanBLE(false);
+                }
+            }
         }
         // other request codes to be added
     }
@@ -161,7 +160,7 @@ public class ScanActivity extends AppCompatActivity {
             case REQUEST_ENABLE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You need to allow location services, app close", Toast.LENGTH_SHORT).show();
+                    Helper.displayToast(this, "You need to allow location services, app close");
                     finish();
                 }
             }
@@ -213,6 +212,11 @@ public class ScanActivity extends AppCompatActivity {
         if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+        else {  // bluetooth is enabled
+            if (!scanActive) {      // start new scan if not already running
+                scanBLE(false);
+            }
         }
     }
 
