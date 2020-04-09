@@ -17,17 +17,26 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name=".ScanActivity">
+    <activity
+      android:name=".ScanActivity"
+      android:launchMode="singleInstance">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".ConnectActivity" />
-    <activity android:name=".WizardsActivity" />
-    <activity android:name=".AdvancedActivity"/>
-    <activity android:name=".HelpActivity" />
+    <activity
+      android:name=".ConnectActivity" />
+    <activity
+      android:name=".WizardsActivity"
+      android:launchMode="singleInstance"/>
+    <activity
+      android:name=".AdvancedActivity"
+      android:launchMode="singleInstance"/>
+    <activity
+      android:name=".HelpActivity"
+      android:launchMode="singleInstance"/>
   </application>
 
 </manifest>

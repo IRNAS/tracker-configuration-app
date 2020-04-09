@@ -124,6 +124,9 @@ public class ScanActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        // update list view adapter
+        discoveredDevsAdapter.notifyDataSetChanged();
+        // check if it is enabled and start scan
         checkBluetooth();
     }
 
@@ -235,6 +238,8 @@ public class ScanActivity extends AppCompatActivity {
             //scanner.startScan(filters, settings, scanCallback);
             scanner.startScan(null, settings, scanCallback);
             // TODO try all different parameters of scanning
+            // TODO handle exception: java.lang.IllegalArgumentException: scanner already started with given callback
+            scanActive = true;
 
             // start scanning timeout
             scanHandler = new Handler();
@@ -245,7 +250,6 @@ public class ScanActivity extends AppCompatActivity {
                 }
             }, SCAN_PERIOD);
 
-            scanActive = true;
             updateMenuButtonTitle();
         }
         else {
