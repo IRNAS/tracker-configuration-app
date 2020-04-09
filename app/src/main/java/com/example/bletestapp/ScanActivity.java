@@ -41,8 +41,8 @@ public class ScanActivity extends AppCompatActivity {
     private final static int REQUEST_ENABLE_BT = 1;
     private final static int REQUEST_ENABLE_LOCATION = 2;
 
-    // stop scanning after 10 seconds
-    private final static long SCAN_PERIOD = 10000;
+    // stop scanning after 30 seconds
+    private final static long SCAN_PERIOD = 30000;
 
     // GUI elements
     private Menu mainMenu;
@@ -60,6 +60,7 @@ public class ScanActivity extends AppCompatActivity {
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
 
     // TODO move all toasts to a single function
+    // TODO back button from other activities always brings you here
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +82,6 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(LOG_TAG_TEST, "Item click, position: " + position);
-                // stop the ongoing scan if it's still active
-                if (scanActive) {
-                    scanBLE(true);
-                }
                 // start activity to connect with device - send object with intent
                 BluetoothDevice selectedDevice = discoveredDevices.get(position).getDevice();
                 Intent connectIntent = new Intent(ScanActivity.this, ConnectActivity.class);
@@ -97,18 +94,15 @@ public class ScanActivity extends AppCompatActivity {
         refreshLayout = findViewById(R.id.refreshScanLayout);
         refreshLayout.setOnRefreshListener(() -> {
             // ignore refresh trigger if discoveredDevices is already empty
-            if (!discoveredDevices.isEmpty()) {     // TODO fix this
+            if (!discoveredDevices.isEmpty()) {
                 discoveredDevices.clear();
                 // update list view adapter
                 discoveredDevsAdapter.notifyDataSetChanged();
-                if (scanActive) {   // stop the scan if running
-                    scanBLE(true);
-                }
-                scanBLE(false); // and start new scan
             }
-            else {
-                refreshLayout.setRefreshing(false);
+            if (scanActive) {   // stop the scan if running
+                scanBLE(true);
             }
+            scanBLE(false); // and start new scan
         });
 
         // get the bluetooth adapter
@@ -138,6 +132,16 @@ public class ScanActivity extends AppCompatActivity {
         checkBluetooth();
         if (!scanActive) {      // start new scan if not already running
             scanBLE(false);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // stop the ongoing scan if it's still active
+        if (scanActive) {
+            scanBLE(true);
         }
     }
 
@@ -180,11 +184,11 @@ public class ScanActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent activityIntent;
         switch (item.getItemId()) {
-            case R.id.menu_button:  // TODO hide this in other activities
+            case R.id.menu_button:
                 scanBLE(scanActive);
                 return true;
             case R.id.devices_list:
-                activityIntent = new Intent(this, ScanActivity.class);  // TODO kill current activity ?
+                activityIntent = new Intent(this, ScanActivity.class);
                 startActivity(activityIntent);
                 return true;
             case R.id.wizards:
@@ -238,16 +242,14 @@ public class ScanActivity extends AppCompatActivity {
             }, SCAN_PERIOD);
 
             scanActive = true;
-            if (mainMenu != null) {
-                mainMenu.findItem(R.id.menu_button).setTitle(R.string.scan_running);
-            }
+            updateMenuButtonTitle();
         }
         else {
             BluetoothLeScannerCompat scanner = BluetoothLeScannerCompat.getScanner();
             scanner.stopScan(scanCallback);
 
             scanActive = false;
-            mainMenu.findItem(R.id.menu_button).setTitle(R.string.scan_stopped);    // TODO put this to function
+            updateMenuButtonTitle();
         }
         // stop refresh animation
         refreshLayout.setRefreshing(false);
@@ -290,5 +292,17 @@ public class ScanActivity extends AppCompatActivity {
         }
         // update list view adapter
         discoveredDevsAdapter.notifyDataSetChanged();
+    }
+
+    private void updateMenuButtonTitle() {
+        if (mainMenu != null) {
+            MenuItem item = mainMenu.findItem(R.id.menu_button);
+            if (scanActive) {
+                item.setTitle(R.string.scan_running);
+            }
+            else {
+                item.setTitle(R.string.scan_stopped);
+            }
+        }
     }
 }
