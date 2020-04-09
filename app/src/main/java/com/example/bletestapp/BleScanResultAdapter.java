@@ -64,10 +64,10 @@ public class BleScanResultAdapter extends BaseAdapter {
                 device_name = "N/A";
             }
         }
-        // apply data to textview fields    // TODO add text what field is showing (expect device name)
+        // apply data to textview fields
         name.setText(device_name);
         mac.setText(resultList.get(position).getDevice().getAddress());
-        rssi.setText(String.valueOf(resultList.get(position).getRssi()));
+        rssi.setText(String.valueOf(resultList.get(position).getRssi() + " dBm"));
         //advertising_interval.setText(String.valueOf(resultList.get(position).getPeriodicAdvertisingInterval()));
         return convertView;
     }

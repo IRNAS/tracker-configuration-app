@@ -54,7 +54,7 @@ public class ScanActivity extends AppCompatActivity {
 
     // TODO How to detect adapter state change inside scanner BroadcastReceiver?
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
-
+    // TODO BLE device names are sometimes not displayed
     // TODO back button from other activities always brings you here
 
     @Override
