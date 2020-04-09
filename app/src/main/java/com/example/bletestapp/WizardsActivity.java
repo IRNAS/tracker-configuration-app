@@ -20,6 +20,7 @@ public class WizardsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.menu_button).setVisible(false);  // hide menu button
         return true;
     }
 
