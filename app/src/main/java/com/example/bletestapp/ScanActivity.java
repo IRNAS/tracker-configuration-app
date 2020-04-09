@@ -13,6 +13,8 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat;
 import no.nordicsemi.android.support.v18.scanner.ScanResult;
 import no.nordicsemi.android.support.v18.scanner.ScanSettings;
@@ -42,16 +44,22 @@ public class ScanActivity extends AppCompatActivity {
     // stop scanning after 10 seconds
     private final static long SCAN_PERIOD = 10000;
 
+    // GUI elements
+    private Menu mainMenu;
+    private SwipeRefreshLayout refreshLayout;
+    private ListView discoveredDevsListView;
+
+    // BLE globals
     private static boolean scanActive;
-    private Button scanBtn;
     private BluetoothAdapter bluetoothAdapter;
     private ArrayList<ScanResult> discoveredDevices;
     private BleScanResultAdapter discoveredDevsAdapter;
-    private ListView discoveredDevsListView;
     private Handler scanHandler;
 
     // TODO How to detect adapter state change inside scanner BroadcastReceiver?
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
+
+    // TODO move all toasts to a single function
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +70,7 @@ public class ScanActivity extends AppCompatActivity {
             // TODO: handle specifics if fresh app run
         }
 
-        // scan button init
         scanActive = false;
-        scanBtn = findViewById(R.id.start_scan_btn);
-        scanBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scanBLE(scanActive);
-            }
-        });
-
         // discovered devices holder list, list view and widget init
         discoveredDevices = new ArrayList<>();
         // use custom adapter to show desired data (device name, MAC, RSSI, advertisement period)
@@ -94,7 +93,23 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
 
-        // TODO implement listener for pull down gesture to empty the list and start scanning again
+        // refresh layout init, pull down gesture to empty the list and start scanning again
+        refreshLayout = findViewById(R.id.refreshScanLayout);
+        refreshLayout.setOnRefreshListener(() -> {
+            // ignore refresh trigger if discoveredDevices is already empty
+            if (!discoveredDevices.isEmpty()) {     // TODO fix this
+                discoveredDevices.clear();
+                // update list view adapter
+                discoveredDevsAdapter.notifyDataSetChanged();
+                if (scanActive) {   // stop the scan if running
+                    scanBLE(true);
+                }
+                scanBLE(false); // and start new scan
+            }
+            else {
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         // get the bluetooth adapter
         final BluetoothManager bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
@@ -121,6 +136,9 @@ public class ScanActivity extends AppCompatActivity {
         super.onResume();
 
         checkBluetooth();
+        if (!scanActive) {      // start new scan if not already running
+            scanBLE(false);
+        }
     }
 
     @Override
@@ -154,6 +172,7 @@ public class ScanActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+        mainMenu = menu;
         return true;
     }
 
@@ -161,8 +180,11 @@ public class ScanActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent activityIntent;
         switch (item.getItemId()) {
+            case R.id.menu_button:  // TODO hide this in other activities
+                scanBLE(scanActive);
+                return true;
             case R.id.devices_list:
-                activityIntent = new Intent(this, ScanActivity.class);
+                activityIntent = new Intent(this, ScanActivity.class);  // TODO kill current activity ?
                 startActivity(activityIntent);
                 return true;
             case R.id.wizards:
@@ -216,16 +238,19 @@ public class ScanActivity extends AppCompatActivity {
             }, SCAN_PERIOD);
 
             scanActive = true;
-            scanBtn.setText(R.string.stop_scan);
-            // TODO add spinning icon when scanning is active
+            if (mainMenu != null) {
+                mainMenu.findItem(R.id.menu_button).setTitle(R.string.scan_running);
+            }
         }
         else {
             BluetoothLeScannerCompat scanner = BluetoothLeScannerCompat.getScanner();
             scanner.stopScan(scanCallback);
 
             scanActive = false;
-            scanBtn.setText(R.string.start_scan);
+            mainMenu.findItem(R.id.menu_button).setTitle(R.string.scan_stopped);    // TODO put this to function
         }
+        // stop refresh animation
+        refreshLayout.setRefreshing(false);
     }
 
     private ScanCallback scanCallback = new ScanCallback() {
