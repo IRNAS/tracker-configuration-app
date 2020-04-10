@@ -5,12 +5,18 @@ import static com.example.bletestapp.Helper.LOG_TAG_TEST;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
-public class ConnectActivity extends AppCompatActivity implements HtManagerCallbacks{
+public class ConnectActivity extends AppCompatActivity implements HtManagerCallbacks, OnNavigationItemSelectedListener {
     // timeout connecting after 10 seconds
     private final static long CONNECT_TIMEOUT = 10000;
 
@@ -21,11 +27,19 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private String deviceName;
 
     // TODO display characteristics in GUI
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
+
+        Toolbar toolbar = findViewById(R.id.connect_toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // read the device you are connected to from intent
         Intent intent = getIntent();
@@ -47,6 +61,33 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
                 .enqueue();
 
     }
+
+    @Override        // TODO if item is already selected, don't allow the action
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.device_status:
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScanFragment()).commit();
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.logs:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.live:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.provisioning:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.settings:
+                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        //drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+
     /*
     @Override
     public void onTest1StateChanged(@NonNull BluetoothDevice device, boolean test1) {}

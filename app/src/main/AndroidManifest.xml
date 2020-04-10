@@ -27,7 +27,8 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".ConnectActivity" />
+      android:name=".ConnectActivity"
+      android:theme="@style/AppTheme.NoActionBar"/>
     <activity
       android:name=".WizardsActivity"
       android:launchMode="singleInstance"/>
