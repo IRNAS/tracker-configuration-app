@@ -41,6 +41,11 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
+            navigationView.setCheckedItem(R.id.device_status);
+        }
+
         // read the device you are connected to from intent
         Intent intent = getIntent();
         deviceToConnect = intent.getParcelableExtra("device");
@@ -66,11 +71,10 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.device_status:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScanFragment()).commit();
-                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
                 break;
             case R.id.logs:
-                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceLogsFragment()).commit();
                 break;
             case R.id.live:
                 Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
@@ -85,8 +89,6 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         //drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
     /*
     @Override

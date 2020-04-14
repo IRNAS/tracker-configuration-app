@@ -56,6 +56,7 @@ public class ScanActivity extends AppCompatActivity {
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
     // TODO BLE device names are sometimes not displayed
     // TODO back button from other activities always brings you here
+    // TODO add background text if no devices have been found
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
