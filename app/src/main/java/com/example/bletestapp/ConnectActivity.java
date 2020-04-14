@@ -25,8 +25,6 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private HtManager manager;
     private boolean deviceConnected;
     private String deviceName;
-
-    // TODO display characteristics in GUI
     private DrawerLayout drawer;
 
     @Override
@@ -77,13 +75,13 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceLogsFragment()).commit();
                 break;
             case R.id.live:
-                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceLiveFragment()).commit();
                 break;
             case R.id.provisioning:
-                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceProvisioningFragment()).commit();
                 break;
             case R.id.settings:
-                Toast.makeText(this, "TO DO", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceSettingsFragment()).commit();
                 break;
         }
         //drawer.closeDrawer(GravityCompat.START);

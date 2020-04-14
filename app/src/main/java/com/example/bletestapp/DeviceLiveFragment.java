@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class DeviceStatusFragment extends Fragment {
+public class DeviceLiveFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().setTitle("Device status");
-        return inflater.inflate(R.layout.frag_device_status, container, false);
+        getActivity().setTitle("Live");
+        return inflater.inflate(R.layout.frag_device_logs, container, false);
     }
-
-    // TODO display characteristics in GUI
 }
