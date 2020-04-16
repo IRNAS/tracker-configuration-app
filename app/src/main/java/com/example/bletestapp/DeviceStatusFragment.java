@@ -1,6 +1,7 @@
 package com.example.bletestapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ public class DeviceStatusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("Device status");
+        Log.d(Helper.LOG_TAG_TEST, "device status fragment created");
         return inflater.inflate(R.layout.frag_device_status, container, false);
     }
 

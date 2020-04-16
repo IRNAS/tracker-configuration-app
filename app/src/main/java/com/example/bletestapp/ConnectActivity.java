@@ -3,9 +3,12 @@ package com.example.bletestapp;
 import static com.example.bletestapp.Helper.LOG_TAG_TEST;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.ClipData.Item;
 import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +16,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
@@ -20,12 +24,17 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     // timeout connecting after 10 seconds
     private final static long CONNECT_TIMEOUT = 10000;
 
+    // BLE connection variables
     // TODO make it a service
     private BluetoothDevice deviceToConnect;
     private HtManager manager;
     private boolean deviceConnected;
     private String deviceName;
+
+    // GUI variables
+    private TextView deviceConnStatusView;
     private DrawerLayout drawer;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +45,8 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
-            navigationView.setCheckedItem(R.id.device_status);
-        }
 
         // read the device you are connected to from intent
         Intent intent = getIntent();
@@ -54,6 +58,14 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         // init variables
         deviceConnected = false;
         deviceName = deviceToConnect.getName();
+        Log.d(LOG_TAG_TEST, "deviceName: " + deviceName);
+
+        // update navigation texts
+        View headerView = navigationView.getHeaderView(0);
+        TextView deviceNameView = headerView.findViewById(R.id.device_name);
+        deviceNameView.setText(deviceName);
+        deviceConnStatusView = headerView.findViewById(R.id.device_con_status);
+        deviceConnStatusView.setText("connecting");
 
         // connect to it
         manager.setGattCallbacks(this);
@@ -63,10 +75,22 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
                 .retry(3, 100)
                 .enqueue();
 
+        // display the fragment device status
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
+            navigationView.setCheckedItem(R.id.device_status);
+        }
     }
 
-    @Override        // TODO if item is already selected, don't allow the action
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        String fragmentName = currentFragment.getClass().getSimpleName();
+        Log.d(LOG_TAG_TEST, "fragmentName: " + fragmentName);
+
+        // TODO if item is already selected, don't allow the action
+        int curSelectedItem = navigationView.getCheckedItem().getItemId();
+
         switch (item.getItemId()) {
             case R.id.device_status:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
@@ -116,6 +140,8 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     public void onDeviceConnected(@NonNull BluetoothDevice device) {
         deviceConnected = true;
         Log.d(LOG_TAG_TEST, "Method called: onDeviceConnected");
+        Helper.displayToast(this, "Successfully connected to " + deviceName);
+        deviceConnStatusView.setText("connected");
         // TODO read all available GATT services
         // TODO read all available GATT chars and descriptors
     }

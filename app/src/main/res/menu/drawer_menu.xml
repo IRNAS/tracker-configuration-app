@@ -5,15 +5,15 @@
   <group android:checkableBehavior="single">
     <item
       android:id="@+id/device_status"
-      android:icon="@drawable/ic_star"
+      android:icon="@drawable/ic_status"
       android:title="" />
     <item
       android:id="@+id/logs"
-      android:icon="@drawable/ic_star"
+      android:icon="@drawable/ic_logs"
       android:title="" />
     <item
       android:id="@+id/live"
-      android:icon="@drawable/ic_star"
+      android:icon="@drawable/ic_live"
       android:title="" />
     <item
       android:id="@+id/provisioning"
