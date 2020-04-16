@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.bletestapp.Helper;
 import com.example.bletestapp.R;
+import com.example.bletestapp.Tracker;
 import com.example.bletestapp.bluetooth.HtManager;
 import com.example.bletestapp.bluetooth.HtManagerCallbacks;
 import com.example.bletestapp.fragments.DeviceLiveFragment;
@@ -149,6 +150,9 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         deviceConnStatusView.setText("connected");
         // TODO read all available GATT services
         // TODO read all available GATT chars and descriptors
+
+        Tracker trackerDevice = new Tracker(1);
+        // TODO put values in the class
     }
 
     @Override
