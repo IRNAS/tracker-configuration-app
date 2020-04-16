@@ -84,29 +84,26 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        String fragmentName = currentFragment.getClass().getSimpleName();
-        Log.d(LOG_TAG_TEST, "fragmentName: " + fragmentName);
-
-        // TODO if item is already selected, don't allow the action
         int curSelectedItem = navigationView.getCheckedItem().getItemId();
-
-        switch (item.getItemId()) {
-            case R.id.device_status:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
-                break;
-            case R.id.logs:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceLogsFragment()).commit();
-                break;
-            case R.id.live:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceLiveFragment()).commit();
-                break;
-            case R.id.provisioning:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceProvisioningFragment()).commit();
-                break;
-            case R.id.settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceSettingsFragment()).commit();
-                break;
+        int clickedItem = item.getItemId();
+        if (curSelectedItem != clickedItem) {   // if item is already selected, don't allow the action
+            switch (clickedItem) {
+                case R.id.device_status:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
+                    break;
+                case R.id.logs:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceLogsFragment()).commit();
+                    break;
+                case R.id.live:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceLiveFragment()).commit();
+                    break;
+                case R.id.provisioning:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceProvisioningFragment()).commit();
+                    break;
+                case R.id.settings:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceSettingsFragment()).commit();
+                    break;
+            }
         }
         //drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -155,7 +152,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     public void onDeviceDisconnected(@NonNull BluetoothDevice device) {
         deviceConnected = false;
         manager.close();
-        Toast.makeText(this, "Device error, disconnected!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Device disconnected", Toast.LENGTH_SHORT).show();
         finish();
         Log.d(LOG_TAG_TEST, "Method called: onDeviceDisconnected");
     }
