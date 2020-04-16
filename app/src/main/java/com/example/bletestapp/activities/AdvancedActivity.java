@@ -1,19 +1,19 @@
-package com.example.bletestapp;
+package com.example.bletestapp.activities;
 
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.example.bletestapp.R;
 
-public class WizardsActivity extends AppCompatActivity {
+public class AdvancedActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wizards);
+        setContentView(R.layout.activity_advanced);
     }
 
     @Override

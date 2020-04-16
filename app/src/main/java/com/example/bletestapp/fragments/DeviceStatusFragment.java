@@ -1,4 +1,4 @@
-package com.example.bletestapp;
+package com.example.bletestapp.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.example.bletestapp.R;
 
 public class DeviceStatusFragment extends Fragment {
 

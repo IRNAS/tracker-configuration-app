@@ -1,4 +1,4 @@
-package com.example.bletestapp;
+package com.example.bletestapp.bluetooth;
 
 import com.example.bletestapp.callback.HtNotifyCallback;
 import com.example.bletestapp.callback.HtTestCallback;

@@ -1,9 +1,8 @@
-package com.example.bletestapp;
+package com.example.bletestapp.activities;
 
 import static com.example.bletestapp.Helper.LOG_TAG_TEST;
 
 import android.bluetooth.BluetoothDevice;
-import android.content.ClipData.Item;
 import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,9 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
+import com.example.bletestapp.Helper;
+import com.example.bletestapp.R;
+import com.example.bletestapp.bluetooth.HtManager;
+import com.example.bletestapp.bluetooth.HtManagerCallbacks;
+import com.example.bletestapp.fragments.DeviceLiveFragment;
+import com.example.bletestapp.fragments.DeviceLogsFragment;
+import com.example.bletestapp.fragments.DeviceProvisioningFragment;
+import com.example.bletestapp.fragments.DeviceSettingsFragment;
+import com.example.bletestapp.fragments.DeviceStatusFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
@@ -58,7 +64,9 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         // init variables
         deviceConnected = false;
         deviceName = deviceToConnect.getName();
-        Log.d(LOG_TAG_TEST, "deviceName: " + deviceName);
+        if(deviceName == null) {
+            deviceName = "BLE device";
+        }
 
         // update navigation texts
         View headerView = navigationView.getHeaderView(0);

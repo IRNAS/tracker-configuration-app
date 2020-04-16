@@ -1,4 +1,4 @@
-package com.example.bletestapp;
+package com.example.bletestapp.activities;
 
 import static com.example.bletestapp.Helper.LOG_TAG_TEST;
 
@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import com.example.bletestapp.Helper;
+import com.example.bletestapp.R;
+import com.example.bletestapp.bluetooth.BleScanResultAdapter;
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat;
 import no.nordicsemi.android.support.v18.scanner.ScanResult;
 import no.nordicsemi.android.support.v18.scanner.ScanSettings;

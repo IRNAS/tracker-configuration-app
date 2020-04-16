@@ -18,7 +18,7 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity
-      android:name=".ScanActivity"
+      android:name=".activities.ScanActivity"
       android:launchMode="singleInstance">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -27,16 +27,16 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".ConnectActivity"
+      android:name=".activities.ConnectActivity"
       android:theme="@style/AppTheme.NoActionBar"/>
     <activity
-      android:name=".WizardsActivity"
+      android:name=".activities.WizardsActivity"
       android:launchMode="singleInstance"/>
     <activity
-      android:name=".AdvancedActivity"
+      android:name=".activities.AdvancedActivity"
       android:launchMode="singleInstance"/>
     <activity
-      android:name=".HelpActivity"
+      android:name=".activities.HelpActivity"
       android:launchMode="singleInstance"/>
   </application>
 

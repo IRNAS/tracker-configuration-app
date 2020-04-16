@@ -9,7 +9,7 @@
   android:fitsSystemWindows="true"
   android:theme="@style/ThemeOverlay.AppCompat.Dark"
   android:background="@color/colorPrimaryDark"
-  tools:context=".ConnectActivity"
+  tools:context=".activities.ConnectActivity"
   tools:openDrawer="start">
 
   <LinearLayout

@@ -1,4 +1,4 @@
-package com.example.bletestapp;
+package com.example.bletestapp.activities;
 
 import android.content.Intent;
 import android.view.Menu;
@@ -6,13 +6,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.example.bletestapp.R;
 
-public class HelpActivity extends AppCompatActivity {
+public class WizardsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.activity_wizards);
     }
 
     @Override
