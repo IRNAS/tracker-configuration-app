@@ -1,14 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="match_parent"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:orientation="vertical"
+  android:layout_margin="2dp"
+  android:background="@color/white">
 
-  <TextView
-    android:layout_width="wrap_content"
+  <RelativeLayout
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:text="TODO"
-    android:textSize="30sp" />
+    android:background="@color/colorPrimaryDark"
+    android:layout_margin="5dp">
 
-</RelativeLayout>
+    <ImageView
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginStart="5dp"
+      android:layout_marginTop="5dp"
+      android:src="@drawable/ic_battery_charging" />
+
+    <ProgressBar
+      android:id="@+id/battery_progress_bar"
+      android:layout_width="150dp"
+      android:layout_height="150dp"
+      style="?android:progressBarStyleHorizontal"
+      android:progress="80"
+      android:layout_gravity="center"
+      android:rotation="180"
+      android:layout_centerInParent="true"
+      android:progressDrawable="@drawable/circle"/>
+
+    <TextView
+      android:id="@+id/battery_progress_textview"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:textSize="30sp"
+      android:textColor="@color/white"
+      android:text="80 %"/>
+
+  </RelativeLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal"
+    android:layout_margin="5dp"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+      android:layout_width="70dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="5dp"
+      android:layout_gravity="center"
+      android:text="Version numbers"
+      android:textAlignment="center"
+      android:maxLength="15"
+      android:textColor="@color/white"
+      android:textSize="14sp" />
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="0.2"
+      android:layout_gravity="center"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/config_version_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="999"
+        android:maxLength="9"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="configuration"
+        android:maxLength="99"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="0.2"
+      android:layout_gravity="center"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/firm_version_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="999"
+        android:maxLength="9"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="firmware"
+        android:maxLength="99"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="0.2"
+      android:layout_gravity="center"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/ble_version_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="999"
+        android:maxLength="9"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:text="BLE firmware"
+        android:maxLength="99"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    </LinearLayout>
+  </LinearLayout>
+
+  <ListView
+    android:id="@+id/trackerValuesListView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp" />
+
+</LinearLayout>

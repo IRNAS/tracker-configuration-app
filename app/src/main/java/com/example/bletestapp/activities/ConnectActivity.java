@@ -38,6 +38,8 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private boolean deviceConnected;
     private String deviceName;
 
+    protected Tracker tracker;
+
     // GUI variables
     private TextView deviceConnStatusView;
     private DrawerLayout drawer;
@@ -83,6 +85,9 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
                 .useAutoConnect(false)  // TODO additional option to use
                 .retry(3, 100)
                 .enqueue();
+
+        // init tracker class TODO make it use a real device
+        tracker = new Tracker(1, 56, 2.8f, 0.012f);
 
         // display the fragment device status
         if (savedInstanceState == null) {
@@ -151,7 +156,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         // TODO read all available GATT services
         // TODO read all available GATT chars and descriptors
 
-        Tracker trackerDevice = new Tracker(1);
+        //tracker = new Tracker(1);
         // TODO put values in the class
     }
 
@@ -217,5 +222,9 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
             manager.disconnect().enqueue();
         }
         super.onBackPressed();
+    }
+
+    public Tracker GetTracker() {
+        return tracker;
     }
 }
