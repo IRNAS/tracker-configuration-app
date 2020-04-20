@@ -27,12 +27,12 @@ public class DeviceStatusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("Device status");
-        tracker = ((ConnectActivity)getActivity()).GetTracker();
         return inflater.inflate(R.layout.frag_device_status, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        tracker = ((ConnectActivity)getActivity()).GetTracker();
         updateGUI(view);
         super.onViewCreated(view, savedInstanceState);
     }

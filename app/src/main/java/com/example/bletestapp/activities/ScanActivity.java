@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -46,6 +47,7 @@ public class ScanActivity extends AppCompatActivity {
     // GUI elements
     private Menu mainMenu;
     private SwipeRefreshLayout refreshLayout;
+    private LinearLayout noDevsFound;
     private ListView discoveredDevsListView;
 
     // BLE globals
@@ -58,7 +60,6 @@ public class ScanActivity extends AppCompatActivity {
     // TODO How to detect adapter state change inside scanner BroadcastReceiver?
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
     // TODO BLE device names are sometimes not displayed
-    // TODO back button from other activities always brings you here
     // TODO add background text if no devices have been found
 
     @Override
@@ -81,6 +82,10 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(LOG_TAG_TEST, "Item click, position: " + position);
+                // stop the scan if running
+                if (scanActive) {
+                    scanBLE(true);
+                }
                 // start activity to connect with device - send object with intent
                 BluetoothDevice selectedDevice = discoveredDevices.get(position).getDevice();
                 Intent connectIntent = new Intent(ScanActivity.this, ConnectActivity.class);
@@ -103,6 +108,10 @@ public class ScanActivity extends AppCompatActivity {
             }
             scanBLE(false); // and start new scan
         });
+
+        // get layout which is shown if no devices are found
+        noDevsFound = findViewById(R.id.noDevsFoundView);
+        noDevsFound.setVisibility(View.GONE);
 
         // get the bluetooth adapter
         final BluetoothManager bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
@@ -131,7 +140,9 @@ public class ScanActivity extends AppCompatActivity {
         // update list view adapter
         discoveredDevsAdapter.notifyDataSetChanged();
         // check if it is enabled and start scan
-        checkBluetooth();
+        if (!scanActive) {
+            checkBluetooth();
+        }
     }
 
     @Override
@@ -303,7 +314,7 @@ public class ScanActivity extends AppCompatActivity {
             }
         }
         // update list view adapter
-        discoveredDevsAdapter.notifyDataSetChanged();
+        discoveredDevsAdapter.notifyDataSetChanged();   // TODO use this method to show/hide noDevsFound
     }
 
     private void updateMenuButtonTitle() {
