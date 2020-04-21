@@ -13,26 +13,6 @@
     android:layout_height="match_parent"
     android:layout_marginTop="5dp">
 
-    <LinearLayout
-      android:id="@+id/noDevsFoundView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:gravity="center"
-      android:orientation="vertical">
-
-    <ImageView
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:src="@drawable/ic_bluetooth_disabled"/>
-
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="No devices found"/>
-
-    </LinearLayout>
-
     <ListView
       android:id="@+id/discoveredDevsListView"
       android:layout_width="match_parent"
@@ -40,6 +20,35 @@
       android:layout_marginTop="8dp"
       android:layout_marginStart="8dp"
       android:layout_marginEnd="8dp" />
+
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/refreshScanLayoutEmpty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="5dp">
+
+    <LinearLayout
+      android:id="@+id/emptyElement"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center"
+      android:orientation="vertical">
+
+      <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:src="@drawable/ic_bluetooth_disabled" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No devices found"
+        android:textSize="30dp" />
+
+    </LinearLayout>
 
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

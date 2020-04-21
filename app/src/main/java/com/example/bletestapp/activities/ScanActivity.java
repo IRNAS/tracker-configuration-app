@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -47,7 +48,7 @@ public class ScanActivity extends AppCompatActivity {
     // GUI elements
     private Menu mainMenu;
     private SwipeRefreshLayout refreshLayout;
-    private LinearLayout noDevsFound;
+    private SwipeRefreshLayout refreshLayoutEmpty;
     private ListView discoveredDevsListView;
 
     // BLE globals
@@ -60,7 +61,6 @@ public class ScanActivity extends AppCompatActivity {
     // TODO How to detect adapter state change inside scanner BroadcastReceiver?
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
     // TODO BLE device names are sometimes not displayed
-    // TODO add background text if no devices have been found
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,25 +93,14 @@ public class ScanActivity extends AppCompatActivity {
                 startActivity(connectIntent);
             }
         });
+        discoveredDevsListView.setEmptyView(findViewById(R.id.emptyElement));
 
         // refresh layout init, pull down gesture to empty the list and start scanning again
         refreshLayout = findViewById(R.id.refreshScanLayout);
-        refreshLayout.setOnRefreshListener(() -> {
-            // ignore refresh trigger if discoveredDevices is already empty
-            if (!discoveredDevices.isEmpty()) {
-                discoveredDevices.clear();
-                // update list view adapter
-                discoveredDevsAdapter.notifyDataSetChanged();
-            }
-            if (scanActive) {   // stop the scan if running
-                scanBLE(true);
-            }
-            scanBLE(false); // and start new scan
-        });
+        refreshLayout.setOnRefreshListener(this::RefreshListViewAndStartScan);
 
-        // get layout which is shown if no devices are found
-        noDevsFound = findViewById(R.id.noDevsFoundView);
-        noDevsFound.setVisibility(View.GONE);
+        refreshLayoutEmpty = findViewById(R.id.refreshScanLayoutEmpty);
+        refreshLayoutEmpty.setOnRefreshListener(this::RefreshListViewAndStartScan);
 
         // get the bluetooth adapter
         final BluetoothManager bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
@@ -276,6 +265,7 @@ public class ScanActivity extends AppCompatActivity {
         }
         // stop refresh animation
         refreshLayout.setRefreshing(false);
+        refreshLayoutEmpty.setRefreshing(false);
     }
 
     private ScanCallback scanCallback = new ScanCallback() {
@@ -314,7 +304,7 @@ public class ScanActivity extends AppCompatActivity {
             }
         }
         // update list view adapter
-        discoveredDevsAdapter.notifyDataSetChanged();   // TODO use this method to show/hide noDevsFound
+        discoveredDevsAdapter.notifyDataSetChanged();
     }
 
     private void updateMenuButtonTitle() {
@@ -327,5 +317,18 @@ public class ScanActivity extends AppCompatActivity {
                 item.setTitle(R.string.scan_stopped);
             }
         }
+    }
+
+    private void RefreshListViewAndStartScan() {
+        // ignore refresh trigger if discoveredDevices is already empty
+        if (!discoveredDevices.isEmpty()) {
+            discoveredDevices.clear();
+            // update list view adapter
+            discoveredDevsAdapter.notifyDataSetChanged();
+        }
+        if (scanActive) {   // stop the scan if running
+            scanBLE(true);
+        }
+        scanBLE(false); // and start new scan
     }
 }
