@@ -31,14 +31,16 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     // timeout connecting after 10 seconds
     private final static long CONNECT_TIMEOUT = 10000;
 
+    // managing variables
+    protected Tracker tracker;
+    private boolean isDummy;
+
     // BLE connection variables
     // TODO make it a service
     private BluetoothDevice deviceToConnect;
     private HtManager manager;
     private boolean deviceConnected;
     private String deviceName;
-
-    protected Tracker tracker;
 
     // GUI variables
     private TextView deviceConnStatusView;
@@ -61,38 +63,47 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         Intent intent = getIntent();
         deviceToConnect = intent.getParcelableExtra("device");
 
-        // init custom ble manager
-        manager = new HtManager(getApplication());
-
-        // init variables
+        // init variables and GUI elements
         deviceConnected = false;
-        deviceName = deviceToConnect.getName();
-        if(deviceName == null) {
-            deviceName = "BLE device";
-        }
-
-        // update navigation texts
         View headerView = navigationView.getHeaderView(0);
-        TextView deviceNameView = headerView.findViewById(R.id.device_name);
-        deviceNameView.setText(deviceName);
         deviceConnStatusView = headerView.findViewById(R.id.device_con_status);
-        deviceConnStatusView.setText("connecting");
+        TextView deviceNameView = headerView.findViewById(R.id.device_name);
+        deviceName = "BLE device";
+        if (deviceToConnect == null) {      // dummy device
+            isDummy = true;
+        }
+        else {
+            isDummy = false;
+            // update device name if it exists
+            String name = deviceToConnect.getName();
+            if (name != null) {
+                deviceName = name;
+            }
+        }
+        deviceNameView.setText(deviceName);
 
-        // connect to it
-        manager.setGattCallbacks(this);
-        manager.connect(deviceToConnect)
-                .timeout(CONNECT_TIMEOUT)
-                .useAutoConnect(false)  // TODO additional option to use
-                .retry(3, 100)
-                .enqueue();
+        if (!isDummy) {     // real device connected
+            deviceConnStatusView.setText("connecting");
+            // init custom ble manager
+            manager = new HtManager(getApplication());
 
-        // init tracker class TODO make it use a real device
-        tracker = new Tracker(1, 56, 2.8f, 0.012f);
+            // connect to it
+            manager.setGattCallbacks(this);
+            manager.connect(deviceToConnect)
+                    .timeout(CONNECT_TIMEOUT)
+                    .useAutoConnect(false)  // TODO additional option to use
+                    .retry(3, 100)
+                    .enqueue();
+        }
+        else {  // dummy test device connected
+            deviceConnStatusView.setText("connected");
+            // init tracker class for dummy device
+            tracker = new Tracker(1, 56, 2.8f, 0.012f);
 
-        // display the fragment device status
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
-            navigationView.setCheckedItem(R.id.device_status);
+            // display the fragment device status
+            if (savedInstanceState == null) {
+                openDefaultFragment();
+            }
         }
     }
 
@@ -158,6 +169,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
 
         //tracker = new Tracker(1);
         // TODO put values in the class
+        openDefaultFragment();
     }
 
     @Override
@@ -226,5 +238,10 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
 
     public Tracker GetTracker() {
         return tracker;
+    }
+
+    private void openDefaultFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
+        navigationView.setCheckedItem(R.id.device_status);
     }
 }

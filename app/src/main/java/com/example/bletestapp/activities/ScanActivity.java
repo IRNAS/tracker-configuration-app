@@ -62,6 +62,8 @@ public class ScanActivity extends AppCompatActivity {
     // https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library/issues/70
     // TODO BLE device names are sometimes not displayed
 
+    // TODO FIX REAL DEVICE SELECT FROM LISTVIEW - URGENT
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,6 +210,11 @@ public class ScanActivity extends AppCompatActivity {
             case R.id.advanced:
                 activityIntent = new Intent(this, AdvancedActivity.class);
                 startActivity(activityIntent);
+                return true;
+            case R.id.dummy:
+                Intent connectIntent = new Intent(ScanActivity.this, ConnectActivity.class);
+                connectIntent.putExtra("device", "dummy");
+                startActivity(connectIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

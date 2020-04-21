@@ -36,6 +36,13 @@
         android:icon="@drawable/ic_advanced"
         android:title="Advanced"
         app:showAsAction="never" />
+
+      <item
+        android:id="@+id/dummy"
+        android:icon="@drawable/ic_dummy_device"
+        android:title="Test dummy device"
+        app:showAsAction="never" />
+
     </menu>
   </item>
 </menu>
