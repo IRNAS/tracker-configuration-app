@@ -156,8 +156,8 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     }
 
     @Override
-    public void hrMeasurementNotification(@NonNull BluetoothDevice device, int measurement) {
-        Log.d(LOG_TAG_TEST, "Method called: hrMeasurementNotification");
+    public void trackerDataNotification(@NonNull BluetoothDevice device, int measurement) {
+        Log.d(LOG_TAG_TEST, "Method called: trackerDataNotification");
     }
 
     @Override
@@ -173,6 +173,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         deviceConnStatusView.setText("connected");
         // TODO read all available GATT services
         // TODO read all available GATT chars and descriptors
+
 
         tracker = new Tracker(1, 56, 2.8f, 0.012f);
         // TODO put values in the class

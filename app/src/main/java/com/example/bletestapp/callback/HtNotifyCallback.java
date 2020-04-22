@@ -4,5 +4,5 @@ import android.bluetooth.BluetoothDevice;
 import androidx.annotation.NonNull;
 
 public interface HtNotifyCallback {
-    void hrMeasurementNotification(@NonNull final BluetoothDevice device, final int measurement);
+    void trackerDataNotification(@NonNull final BluetoothDevice device, final int measurement);
 }

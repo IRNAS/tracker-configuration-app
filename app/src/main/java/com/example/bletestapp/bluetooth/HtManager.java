@@ -11,24 +11,20 @@ import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.example.bletestapp.BuildConfig;
+import com.example.bletestapp.Helper;
 import com.example.bletestapp.callback.HtNotifyDataCallback;
 import com.example.bletestapp.callback.HtTestDataCallback;
+import java.util.List;
 import java.util.UUID;
 import no.nordicsemi.android.ble.BleManager;
 import no.nordicsemi.android.ble.data.Data;
 
 public class HtManager extends BleManager<HtManagerCallbacks> {
-    //final static UUID SERVICE_UUID = UUID.fromString("0000aaa0-0000-1000-8000-aabbccddeeff");
-    //final static UUID FIRST_CHAR = UUID.randomUUID();
-    //final static UUID SECOND_CHAR = UUID.fromString("0000aaa1-0000-1000-8000-aabbccddeeff");
-
-    final static UUID HEART_RATE_SERVICE = convertUuidFromInt(0x180d);
-    final static UUID HR_MEASUREMENT_CHAR = convertUuidFromInt(0x2a37);
-    final static UUID BODY_SENSOR_LOCATION_CHAR = convertUuidFromInt(0x2a38);
-    final static UUID HR_CONTROL_POINT_CHAR = convertUuidFromInt(0x2a39);
+    final static UUID TRACKER_SERVICE = UUID.fromString("04831523-6c9d-6ca9-5d41-03ad4fff4abb");
+    final static UUID TRACKER_CHAR = UUID.fromString("04831524-6c9d-6ca9-5d41-03ad4fff4abb");
 
     // client characteristics (N - notify, R - read, W - write)
-    private BluetoothGattCharacteristic hrMeasurementCharN, bodySensorLocationCharR, hrControlPointCharW;
+    private BluetoothGattCharacteristic trackerCharN;
 
     private boolean isSupported;
 
@@ -92,11 +88,11 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
         }
     };
 
-    private final HtNotifyDataCallback hrMeasurementCharNCallback = new HtNotifyDataCallback() {
+    private final HtNotifyDataCallback trackerCharNCallback = new HtNotifyDataCallback() {
         @Override
-        public void hrMeasurementNotification(@NonNull BluetoothDevice device, int measurement) {
-            Log.i(LOG_TAG_TEST,"Current HR: " + measurement);
-            mCallbacks.hrMeasurementNotification(device, measurement);
+        public void trackerDataNotification(@NonNull BluetoothDevice device, int measurement) {
+            Log.i(LOG_TAG_TEST,"Current int value: " + measurement);
+            mCallbacks.trackerDataNotification(device, measurement);
         }
 
         @Override
@@ -112,29 +108,19 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
         // Return true if all required services are found, false otherwise.
         @Override
         public boolean isRequiredServiceSupported(@NonNull final BluetoothGatt gatt) {
-            final BluetoothGattService service = gatt.getService(HEART_RATE_SERVICE);
+            final BluetoothGattService service = gatt.getService(TRACKER_SERVICE);
             if (service != null) {
-                hrMeasurementCharN = service.getCharacteristic(HR_MEASUREMENT_CHAR);
-                bodySensorLocationCharR = service.getCharacteristic(BODY_SENSOR_LOCATION_CHAR);
-                hrControlPointCharW = service.getCharacteristic(HR_CONTROL_POINT_CHAR);
+                trackerCharN = service.getCharacteristic(TRACKER_CHAR);
             }
             // Validate properties
             boolean notify = false;
-            if (hrMeasurementCharN != null) {
-                final int properties = hrMeasurementCharN.getProperties();
+            if (trackerCharN != null) {
+                final int properties = trackerCharN.getProperties();
                 notify = (properties & BluetoothGattCharacteristic.PROPERTY_NOTIFY) != 0;
             }
 
-            boolean writeRequest = false;
-            if (hrControlPointCharW != null) {
-                final int properties = hrControlPointCharW.getProperties();
-                writeRequest = (properties & BluetoothGattCharacteristic.PROPERTY_WRITE) != 0;
-                hrControlPointCharW.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
-            }
-
             // Return true if all required services have been found
-            isSupported = hrMeasurementCharN != null && bodySensorLocationCharR != null && notify && writeRequest;
-            //isSupported = hrMeasurementCharN != null && bodySensorLocationCharR != null && hrControlPointCharW != null;
+            isSupported = trackerCharN != null && notify;
             return isSupported;
         }
 
@@ -149,28 +135,14 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
         // MTU or write some initial data. Do it here.
         @Override
         protected void initialize() {
-            setNotificationCallback(bodySensorLocationCharR)
-                    .with(bodySensorLocationCharRCallback);
-            readCharacteristic(bodySensorLocationCharR)
-                    .with(bodySensorLocationCharRCallback)
-                    .enqueue();
-
-            writeCharacteristic(hrControlPointCharW, new byte[] {1, 1})
-                    .done(device -> log(Log.INFO, "HR control point data send OK"))
-                    .enqueue();
-
-            setNotificationCallback(hrMeasurementCharN)
-                    .with(hrMeasurementCharNCallback);
-            enableNotifications(hrMeasurementCharN)
-                    .enqueue();
+            setNotificationCallback(trackerCharN).with(trackerCharNCallback);
+            enableNotifications(trackerCharN).enqueue();
         }
 
         @Override
         protected void onDeviceDisconnected() {
             // Device disconnected. Release your references here
-            hrMeasurementCharN = null;
-            bodySensorLocationCharR = null;
-            hrControlPointCharW = null;
+            trackerCharN = null;
         }
     };
 }
