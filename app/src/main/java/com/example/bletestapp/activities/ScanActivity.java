@@ -98,7 +98,6 @@ public class ScanActivity extends AppCompatActivity {
                 startActivity(connectIntent);
             }
         });
-        discoveredDevsListView.setEmptyView(findViewById(R.id.emptyElement));
 
         // refresh layout init, pull down gesture to empty the list and start scanning again
         refreshLayout = findViewById(R.id.refreshScanLayout);
@@ -106,6 +105,7 @@ public class ScanActivity extends AppCompatActivity {
 
         refreshLayoutEmpty = findViewById(R.id.refreshScanLayoutEmpty);
         refreshLayoutEmpty.setOnRefreshListener(this::RefreshListViewAndStartScan);
+        discoveredDevsListView.setEmptyView(refreshLayoutEmpty);
 
         // get the bluetooth adapter
         final BluetoothManager bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
@@ -199,7 +199,7 @@ public class ScanActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_button:
                 if (noBluetooth) {
-                    displayToast(this, "Bluetooth disabled, use dummy device option from the main menu.");
+                    displayToast(this, "Bluetooth disabled, enable it or use dummy device option from the main menu.");
                 }
                 else {
                     scanBLE(scanActive);

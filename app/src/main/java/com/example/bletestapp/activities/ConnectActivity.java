@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -46,6 +47,8 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private TextView deviceConnStatusView;
     private DrawerLayout drawer;
     NavigationView navigationView;
+    TextView waitBleDeviceText;
+    FrameLayout fragmentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,10 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        waitBleDeviceText = findViewById(R.id.wait_ble_device_text);
+        fragmentLayout = findViewById(R.id.fragment_container);
+        fragmentLayout.setVisibility(View.GONE);
+        waitBleDeviceText.setVisibility(View.VISIBLE);
 
         // read the device you are connected to from intent
         Intent intent = getIntent();
@@ -98,7 +105,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         else {  // dummy test device connected
             deviceConnStatusView.setText("connected");
             // init tracker class for dummy device
-            tracker = new Tracker(1, 56, 2.8f, 0.012f);
+            tracker = new Tracker();
 
             // display the fragment device status
             if (savedInstanceState == null) {
@@ -167,7 +174,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         // TODO read all available GATT services
         // TODO read all available GATT chars and descriptors
 
-        //tracker = new Tracker(1);
+        tracker = new Tracker(1, 56, 2.8f, 0.012f);
         // TODO put values in the class
         openDefaultFragment();
     }
@@ -241,6 +248,9 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     }
 
     private void openDefaultFragment() {
+        fragmentLayout.setVisibility(View.VISIBLE);
+        waitBleDeviceText.setVisibility(View.GONE);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DeviceStatusFragment()).commit();
         navigationView.setCheckedItem(R.id.device_status);
     }

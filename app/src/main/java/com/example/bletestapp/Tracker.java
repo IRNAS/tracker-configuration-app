@@ -18,7 +18,19 @@ public class Tracker {
     // list of class fields that have name, unit and value - displayed in listview
     private ArrayList<TrackerValue> trackerValues;
 
-    public Tracker(int configVersion, int batteryLevel, float voltage, float current) {
+    public Tracker() {  // dummy device - put fake values
+        configVersion = 1;
+        firmwareVersion = 4;
+        bleFirmwareVersion = 65704;
+        batteryLevel = 69;
+
+        trackerValues = new ArrayList<>();
+        trackerValues.add(new TrackerValue("Log file size", String.valueOf(123456), ""));
+        trackerValues.add(new TrackerValue("Battery voltage", String.valueOf(3.3), "V"));
+        trackerValues.add(new TrackerValue("Battery current", String.valueOf(0.09), "A"));
+    }
+
+    public Tracker(int configVersion, int batteryLevel, float voltage, float current) {     // TODO real tracker connected
         this.configVersion = configVersion;
         this.batteryLevel = batteryLevel;
 
