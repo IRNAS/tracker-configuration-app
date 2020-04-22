@@ -1,6 +1,7 @@
 package com.example.bletestapp.activities;
 
 import static com.example.bletestapp.Helper.LOG_TAG_TEST;
+import static com.example.bletestapp.Helper.displayToast;
 
 import android.os.Handler;
 import android.view.Menu;
@@ -52,6 +53,7 @@ public class ScanActivity extends AppCompatActivity {
     private ListView discoveredDevsListView;
 
     // BLE globals
+    private static boolean noBluetooth;
     private static boolean scanActive;
     private BluetoothAdapter bluetoothAdapter;
     private ArrayList<ScanResult> discoveredDevices;
@@ -73,6 +75,7 @@ public class ScanActivity extends AppCompatActivity {
             // TODO: handle specifics if fresh app run
         }
 
+        noBluetooth = false;
         scanActive = false;
         // discovered devices holder list, list view and widget init
         discoveredDevices = new ArrayList<>();
@@ -131,7 +134,7 @@ public class ScanActivity extends AppCompatActivity {
         // update list view adapter
         discoveredDevsAdapter.notifyDataSetChanged();
         // check if it is enabled and start scan
-        if (!scanActive) {
+        if (!scanActive && !noBluetooth) {
             checkBluetooth();
         }
     }
@@ -151,8 +154,9 @@ public class ScanActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == Activity.RESULT_CANCELED) {
-                Helper.displayToast(this, "Bluetooth needs to be turned on, the app has been closed.");
-                finish();
+                scanBLE(true);  // stop the scan
+                noBluetooth = true;
+                Helper.displayToast(this, "Bluetooth needs to be enabled to discover actual BLE devices.");
             }
             else if (resultCode == Activity.RESULT_OK) {
                 if (!scanActive) {      // start new scan if not already running
@@ -169,8 +173,9 @@ public class ScanActivity extends AppCompatActivity {
             case REQUEST_ENABLE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Helper.displayToast(this, "You need to allow location services, app close");
-                    finish();
+                    scanBLE(true);  // stop the scan
+                    noBluetooth = true;
+                    Helper.displayToast(this, "You need to allow location services in order to discover BLE devices.");
                 }
             }
             // other permission cases to be added
@@ -193,7 +198,12 @@ public class ScanActivity extends AppCompatActivity {
         Intent activityIntent;
         switch (item.getItemId()) {
             case R.id.menu_button:
-                scanBLE(scanActive);
+                if (noBluetooth) {
+                    displayToast(this, "Bluetooth disabled, use dummy device option from the main menu.");
+                }
+                else {
+                    scanBLE(scanActive);
+                }
                 return true;
             case R.id.devices_list:
                 activityIntent = new Intent(this, ScanActivity.class);

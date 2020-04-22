@@ -68,16 +68,16 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
         View headerView = navigationView.getHeaderView(0);
         deviceConnStatusView = headerView.findViewById(R.id.device_con_status);
         TextView deviceNameView = headerView.findViewById(R.id.device_name);
-        deviceName = "BLE device";
         if (deviceToConnect == null) {      // dummy device
             isDummy = true;
+            deviceName = "Dummy device";
         }
         else {
             isDummy = false;
             // update device name if it exists
-            String name = deviceToConnect.getName();
-            if (name != null) {
-                deviceName = name;
+            deviceName = deviceToConnect.getName();
+            if (deviceName == null) {
+                deviceName = "BLE device";
             }
         }
         deviceNameView.setText(deviceName);
