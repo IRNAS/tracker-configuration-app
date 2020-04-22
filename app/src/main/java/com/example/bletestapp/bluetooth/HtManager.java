@@ -1,4 +1,4 @@
-package com.example.bletestapp;
+package com.example.bletestapp.bluetooth;
 
 import static com.example.bletestapp.Helper.LOG_TAG_TEST;
 import static com.example.bletestapp.Helper.convertUuidFromInt;
@@ -10,7 +10,7 @@ import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
-import com.example.bletestapp.callback.HtNotifyCallback;
+import com.example.bletestapp.BuildConfig;
 import com.example.bletestapp.callback.HtNotifyDataCallback;
 import com.example.bletestapp.callback.HtTestDataCallback;
 import java.util.UUID;
@@ -32,7 +32,7 @@ public class HtManager extends BleManager<HtManagerCallbacks> {
 
     private boolean isSupported;
 
-    HtManager(@NonNull final Context context) {
+    public HtManager(@NonNull final Context context) {
         super(context);
     }
 
