@@ -20,7 +20,8 @@ import com.example.bletestapp.activities.ConnectActivity;
 import java.util.ArrayList;
 
 public class DeviceStatusFragment extends Fragment {
-    Tracker tracker;
+    Tracker tracker;    // TODO make an interface
+    // https://stackoverflow.com/questions/14247954/communicating-between-a-fragment-and-an-activity-best-practices
     private TrackerValueAdapter trackerValueAdapter;
 
     @Nullable

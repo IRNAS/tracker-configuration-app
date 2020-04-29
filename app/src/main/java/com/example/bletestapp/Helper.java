@@ -7,10 +7,11 @@ import java.util.UUID;
 public class Helper {
     public final static String LOG_TAG_TEST = "HEH";
 
-    // requests constants
+    // global constants
     public final static int REQUEST_ENABLE_BT = 1001;
     public final static int REQUEST_ENABLE_LOCATION = 1002;
     public final static int REQUEST_ERROR_DIALOG = 1003;
+    public final static String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     public static UUID convertUuidFromInt(int i) {
         final long MSB = 0x0000000000001000L;

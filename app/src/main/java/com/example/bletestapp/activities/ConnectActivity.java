@@ -25,6 +25,7 @@ import com.example.bletestapp.fragments.DeviceLogsFragment;
 import com.example.bletestapp.fragments.DeviceProvisioningFragment;
 import com.example.bletestapp.fragments.DeviceSettingsFragment;
 import com.example.bletestapp.fragments.DeviceStatusFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
@@ -106,6 +107,9 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
             deviceConnStatusView.setText("connected");
             // init tracker class for dummy device
             tracker = new Tracker();
+            tracker.addPosition(new LatLng(34,25));
+            tracker.addPosition(new LatLng(35,25));
+            tracker.addPosition(new LatLng(38,27));
 
             // display the fragment device status
             if (savedInstanceState == null) {
