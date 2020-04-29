@@ -15,6 +15,6 @@ public class DeviceSettingsFragment extends Fragment {
     public View onCreateView(
             LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("Settings");
-        return inflater.inflate(R.layout.frag_device_logs, container, false);
+        return inflater.inflate(R.layout.frag_device_settings, container, false);
     }
 }
