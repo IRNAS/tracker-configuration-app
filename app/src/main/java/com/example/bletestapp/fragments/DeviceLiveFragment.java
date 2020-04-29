@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,7 @@ public class DeviceLiveFragment extends Fragment implements OnMapReadyCallback {
     Tracker tracker;
 
     // GUI variables
+    private Switch liveTrackingSwitch;
     private MapView mapView;
     private GoogleMap mGoogleMap;
     private LatLngBounds.Builder boundsBuilder;
@@ -52,6 +54,7 @@ public class DeviceLiveFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mapView = view.findViewById(R.id.tracker_map);
+        liveTrackingSwitch = view.findViewById(R.id.active_tracking_switch);
         tracker = ((ConnectActivity)getActivity()).GetTracker();
         initGoogleMap(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
