@@ -169,7 +169,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     public void onDeviceConnected(@NonNull BluetoothDevice device) {
         deviceConnected = true;
         Log.d(LOG_TAG_TEST, "Method called: onDeviceConnected");
-        Helper.displayToast(this, "Successfully connected to " + deviceName);
+        Helper.displayToast(this, "Successfully connected to " + deviceName, true);
         deviceConnStatusView.setText("connected");
         // TODO read all available GATT services
         // TODO read all available GATT chars and descriptors
