@@ -1,0 +1,40 @@
+{
+  "battery": {
+    "logEnable": true
+  },
+  "bluetooth": {
+    "logEnable": true,
+    "scheduledDuration": 0,
+    "scheduledInterval": 0,
+    "triggerControl": [
+      "SCHEDULED"
+    ]
+  },
+  "gps": {
+    "logDebugEnable": true,
+    "logPositionEnable": true,
+    "logTTFFEnable": true,
+    "maximumAquisitionTime": 25,
+    "mode": "SCHEDULED",
+    "scheduledAquisitionInterval": 305,
+    "testFixHoldTime": 60
+  },
+  "logging": {
+    "dateTimeStampEnable": true,
+    "enable": true,
+    "fileSize": 792245,
+    "fileType": "LINEAR"
+  },
+  "rtc": {
+    "dateTime": "Thu Apr 30 13:14:01 2020",
+    "syncToGPSEnable": true
+  },
+  "saltwaterSwitch": {
+    "hysteresisPeriod": 5,
+    "logEnable": true
+  },
+  "system": {
+    "deviceName": "dustriyadh"
+  },
+  "version": 1
+}
