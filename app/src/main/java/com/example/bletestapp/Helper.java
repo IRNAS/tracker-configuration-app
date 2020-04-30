@@ -1,7 +1,12 @@
 package com.example.bletestapp;
 
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.UUID;
 
 public class Helper {
@@ -27,5 +32,21 @@ public class Helper {
         else {
             Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static String loadAssetFile(Context context, String fileName) {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(context.getAssets().open(fileName)));
+            StringBuilder out= new StringBuilder();
+            String eachline = bufferedReader.readLine();
+            while (eachline != null) {
+                out.append(eachline);
+                eachline = bufferedReader.readLine();
+            }
+            return out.toString();
+        } catch (IOException e) {
+            Log.e("Load Asset File",e.toString());
+        }
+        return null;
     }
 }

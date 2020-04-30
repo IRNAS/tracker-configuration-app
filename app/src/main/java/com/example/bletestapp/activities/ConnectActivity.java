@@ -35,7 +35,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
 
     // managing variables
     protected Tracker tracker;
-    private boolean isDummy;
+    public boolean isDummy;
 
     // BLE connection variables
     // TODO make it a service
@@ -47,9 +47,9 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     // GUI variables
     private TextView deviceConnStatusView;
     private DrawerLayout drawer;
-    NavigationView navigationView;
-    TextView waitBleDeviceText;
-    FrameLayout fragmentLayout;
+    private NavigationView navigationView;
+    private TextView waitBleDeviceText;
+    private FrameLayout fragmentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
