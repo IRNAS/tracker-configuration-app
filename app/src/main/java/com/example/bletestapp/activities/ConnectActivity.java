@@ -25,16 +25,17 @@ import com.example.bletestapp.fragments.DeviceLogsFragment;
 import com.example.bletestapp.fragments.DeviceProvisioningFragment;
 import com.example.bletestapp.fragments.DeviceSettingsFragment;
 import com.example.bletestapp.fragments.DeviceStatusFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
 public class ConnectActivity extends AppCompatActivity implements HtManagerCallbacks, OnNavigationItemSelectedListener {
-    // timeout connecting after 10 seconds
-    private final static long CONNECT_TIMEOUT = 10000;
+    // timeout connecting after 30 seconds
+    private final static long CONNECT_TIMEOUT = 30000;
 
     // managing variables
     protected Tracker tracker;
-    private boolean isDummy;
+    public boolean isDummy;
 
     // BLE connection variables
     // TODO make it a service
@@ -44,11 +45,12 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private String deviceName;
 
     // GUI variables
+    // TODO allow and handle landscape mode
     private TextView deviceConnStatusView;
     private DrawerLayout drawer;
-    NavigationView navigationView;
-    TextView waitBleDeviceText;
-    FrameLayout fragmentLayout;
+    private NavigationView navigationView;
+    private TextView waitBleDeviceText;
+    private FrameLayout fragmentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,9 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
             deviceConnStatusView.setText("connected");
             // init tracker class for dummy device
             tracker = new Tracker();
+            tracker.addPosition(new LatLng(34,25));
+            tracker.addPosition(new LatLng(35,25));
+            tracker.addPosition(new LatLng(38,27));
 
             // display the fragment device status
             if (savedInstanceState == null) {
@@ -169,7 +174,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     public void onDeviceConnected(@NonNull BluetoothDevice device) {
         deviceConnected = true;
         Log.d(LOG_TAG_TEST, "Method called: onDeviceConnected");
-        Helper.displayToast(this, "Successfully connected to " + deviceName);
+        Helper.displayToast(this, "Successfully connected to " + deviceName, true);
         deviceConnStatusView.setText("connected");
         // TODO read all available GATT services
         // TODO read all available GATT chars and descriptors

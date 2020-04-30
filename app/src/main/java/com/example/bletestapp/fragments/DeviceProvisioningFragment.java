@@ -14,6 +14,6 @@ public class DeviceProvisioningFragment extends Fragment {
     @Override
     public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("Provisioning");
-        return inflater.inflate(R.layout.frag_device_logs, container, false);
+        return inflater.inflate(R.layout.frag_device_provisioning, container, false);
     }
 }
