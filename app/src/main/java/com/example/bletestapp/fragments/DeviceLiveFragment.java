@@ -3,6 +3,7 @@ package com.example.bletestapp.fragments;
 import static com.example.bletestapp.Helper.LOG_TAG_TEST;
 import static com.example.bletestapp.Helper.MAP_VIEW_BUNDLE_KEY;
 import static com.example.bletestapp.Helper.REQUEST_ERROR_DIALOG;
+import static com.example.bletestapp.Helper.displayToast;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -149,17 +150,23 @@ public class DeviceLiveFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void setCameraView() {
-        boundsBuilder = new LatLngBounds.Builder();
-        List<Marker> markersList = new ArrayList<>();
-        int i = 1;
-        for (LatLng loc : tracker.getPositions()) {
-            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(loc).title("Loc " + i));
-            markersList.add(marker);
-            i++;
-            boundsBuilder.include(loc);
+        if (tracker.hasPositions()) {
+            boundsBuilder = new LatLngBounds.Builder();
+            List<Marker> markersList = new ArrayList<>();
+            int i = 1;
+            for (LatLng loc : tracker.getPositions()) {
+                Marker marker = mGoogleMap
+                        .addMarker(new MarkerOptions().position(loc).title("Loc " + i));
+                markersList.add(marker);
+                i++;
+                boundsBuilder.include(loc);
+            }
+            int padding = 100;
+            LatLngBounds bounds = boundsBuilder.build();
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
         }
-        int padding = 100;
-        LatLngBounds bounds = boundsBuilder.build();
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
+        else {
+            displayToast(getActivity(), "Getting devices positions has failed...", true);
+        }
     }
 }

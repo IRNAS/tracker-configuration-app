@@ -66,6 +66,8 @@ public class Tracker {
     public ArrayList<TrackerValue> getTrackerValues() { return trackerValues; }
     public ArrayList<LatLng> getPositions() { return positions; }
 
+    public boolean hasPositions() { return !positions.isEmpty(); }
+
     public void addPosition(LatLng position) {
         positions.add(position);
     }
