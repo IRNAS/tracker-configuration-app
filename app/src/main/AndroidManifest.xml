@@ -27,7 +27,8 @@
     </activity>
     <activity
       android:name=".activities.ConnectActivity"
-      android:theme="@style/AppTheme.NoActionBar"/>
+      android:theme="@style/AppTheme.NoActionBar"
+      android:screenOrientation="portrait"/>
     <activity
       android:name=".activities.WizardsActivity"
       android:launchMode="singleInstance"/>

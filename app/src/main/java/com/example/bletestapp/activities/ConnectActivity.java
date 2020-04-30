@@ -45,6 +45,7 @@ public class ConnectActivity extends AppCompatActivity implements HtManagerCallb
     private String deviceName;
 
     // GUI variables
+    // TODO allow and handle landscape mode
     private TextView deviceConnStatusView;
     private DrawerLayout drawer;
     private NavigationView navigationView;
