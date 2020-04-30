@@ -30,8 +30,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
 public class ConnectActivity extends AppCompatActivity implements HtManagerCallbacks, OnNavigationItemSelectedListener {
-    // timeout connecting after 10 seconds
-    private final static long CONNECT_TIMEOUT = 10000;
+    // timeout connecting after 30 seconds
+    private final static long CONNECT_TIMEOUT = 30000;
 
     // managing variables
     protected Tracker tracker;
