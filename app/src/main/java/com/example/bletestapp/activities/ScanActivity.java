@@ -203,6 +203,7 @@ public class ScanActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         mainMenu = menu;
+        updateMenuButtonTitle();
         return true;
     }
 
